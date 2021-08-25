@@ -16,19 +16,16 @@ A simple little bridge repo:
 
 ```Dockerfile
 FROM python:3.9 as build
+
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-RUN mkdir /git_test
-RUN git clone https://github.com/allanjamesvestal/cousin-iddd /source_from_git
-
 RUN pip install pipenv
 
-WORKDIR /code
-COPY ./source_from_git/ /code/
-RUN bash -c 'PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy'
+WORKDIR /build
+RUN git clone https://github.com/allanjamesvestal/Cousin-IDDD.git .
 
-RUN touch /code/.env
+RUN bash -c 'PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy'
 
 # Run the application
 ENTRYPOINT ["pipenv", "run", "python", "monitor_folder.py"]
@@ -38,7 +35,7 @@ CMD []
 ### Next, build the image.
 
 ```sh
-docker build .
+docker build test-release .
 ```
 
 ### Then, give it a go with `docker run`.
@@ -47,7 +44,6 @@ docker build .
 docker run \
   --volume /path/to/cousin-iddd/config:/config \
   --volume /path/to/cousin-iddd/logs:/logs \
-  --volume /path/to/cousin-iddd/cousin-iddd/source:/source \
   --volume /path/to/podgrab-assets:/watched_media \
   --env NAVIDROME_HOST=<192.168.0.1:4533> \
   --env NAVIDROME_USERNAME=<my_user> \
@@ -55,11 +51,26 @@ docker run \
   --env PODGRAB_HOST=<192.168.0.1:8080> \
   --env PODGRAB_USERNAME=<podgrab> \
   --env PODGRAB_PASSWORD=<my_pass> \
-  .
+  test-release .
 ```
 
 ### If you want to use `docker-compose`, my working implementation is like so:
 
-```sh
-# TKTKTK
+```yaml
+version: "3.9"
+services:
+  cousin-iddd:
+    build: ./cousin-iddd
+    environment:
+      - NAVIDROME_HOST=<192.168.0.1:4533>
+      - NAVIDROME_USERNAME=<my_user>
+      - NAVIDROME_PASSWORD=<my_pass>
+      - PODGRAB_HOST=<192.168.0.1:8080>
+      - PODGRAB_USERNAME=<podgrab>
+      - PODGRAB_PASSWORD=<my_pass>
+    restart: always
+    volumes:
+      - /path/to/cousin-iddd/config:/config
+      - /path/to/cousin-iddd/logs:/logs
+      - /path/to/podgrab-assets:/watched_media
 ```
