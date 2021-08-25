@@ -2,9 +2,9 @@
 
 A simple little bridge repo:
 
-1.  Monitors the directory to which your Podgrab install fetches your podcasts,
+1.  Monitors the directory to which your [Podgrab](https://github.com/akhilrex/podgrab) install fetches your podcasts,
 2.  Adds ID3 (title, album, artist, track number) tags to any new .mp3 files based on Podgrab's metadata, and
-3.  Builds one playlist per podcast in your Navidrome* install, which features the last X episodes in reverse-chronological order.
+3.  Builds one playlist per podcast in your [Navidrome*](https://github.com/navidrome/navidrome) install, which features the last X episodes in reverse-chronological order.
 
 * NOTE: Since Navidrome implements the Subsonic API, it's possible this library could work with other Subsonic-inspired projects. This is not tested, so proceed at your own risk.
 
