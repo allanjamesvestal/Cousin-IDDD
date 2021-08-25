@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bs4 = "*"
+eyed3 = "*"
+requests = "*"
+lxml = "*"
+python-dateutil = "*"
+watchdog = "*"
+python-slugify = "*"
+
+[dev-packages]
+ipython = "*"
+
+[requires]
+python_version = "3.9"
